@@ -1,0 +1,106 @@
+<!-- templates/payment/payment_page.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+        /* static/payment/payment_styles.css */
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1, h2 {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input[type=radio] {
+    margin-right: 10px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Total Amount: {{ total_price }}</h1>
+        <p>Selected Amount: {{ amount }}</p>
+
+        <h2>Select Payment Method:</h2>
+        <form id="paymentForm" method="post">
+            {% csrf_token %}
+            <input type="radio" id="razorpay" name="paymentMethod" value="razorpay" checked>
+            <label for="razorpay">Razorpay</label><br>
+            <!-- Add more payment options here if needed -->
+
+            <!-- Process payment using JavaScript -->
+            <a href="{% url 'payment:payment_success' %}">
+            <button type="button" id="payButton">Pay Now</button>
+        </form>
+    </div>
+
+    <script>
+        var totalAmount = {{ amount }};
+        var totalPrice = {{ total_price }};
+        var orderId = "{{ order_id }}";
+        var currency = "INR";
+        var key = "{{ razorpay_key }}";
+
+        var options = {
+            "key": key,
+            "amount": totalAmount * 100, // Amount in paisa
+            "currency": currency,
+            "name": "Your Company Name",
+            "description": "Payment Description",
+            "order_id": orderId,
+            "handler": function(response){
+                // Handle payment success
+
+            },
+            "prefill": {
+                // Pre-fill customer details if needed
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        document.getElementById('payButton').onclick = function(){
+            var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            if (paymentMethod === 'razorpay') {
+                rzp1.open();
+            }
+        };
+    </script>
+</body>
+</html>

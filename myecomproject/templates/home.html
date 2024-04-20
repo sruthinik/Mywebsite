@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}fabhfash  Choose your fashion in one click...{% endblock %}
+{% block content %}
+{% if category %}
+<div>
+    <div class="row">
+        <div class="mx-auto">
+            <p class="text-center" style="background-color:white"><a href ="{% url 'allproducts' %}">Our Products Category</a></p>
+        </div>
+    </div>
+</div>
+{% endif %}
+<div class="mx-auto">
+{% if category %}
+    <img src="{{category.image.url}}" alt="{{category.name}}" style="width:100%; height:600px;">
+     </div>
+<br>
+<div class="text-center" style="background-color:white">
+    <h1>{{category.name}}</h1>
+</div>
+{% endif %}
+
+
+<div class="container">
+   <div class="row">
+      {% for product in products %}
+       <div class="col-9 col-sm-12 col-md-4">
+      <div class="card text-center" style="width: 18rem;">
+      <img class="card-img-top" src="{{product.image.url}}" alt="{{product.name}}" style="height:18rem; width:100%;">
+  <div class="card-body" style="margin-top: 30px;">
+    <h4>{{product.name}}</h4>
+    <p >{{product.price}}</p>
+    <a href="{{product.get_url}}" class="btn btn-primary">View</a>
+  </div>
+</div>
+
+   </div>
+   {% endfor %}
+</div>
+</div>
+
+
+   {% endblock %}

@@ -1,0 +1,200 @@
+
+<!-- cart/cart.html -->
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Add to cart</title>
+	<style>
+		  /* cart.css */
+/* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* Heading styles */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Product list styles */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+}
+
+/* Product item styles */
+.product-item {
+    flex: 0 1 calc(33.33% - 20px);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 15px;
+    text-align: center;
+}
+
+/* Product item hover effect */
+.product-item:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 1.2);
+}
+
+/* Product name styles */
+.product-name {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Price styles */
+.price {
+    color: #007bff;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Remove link styles */
+.remove-link {
+    color: #dc3545;
+    text-decoration: none;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 10px;
+}
+
+/* Total price styles */
+.total-price {
+    text-align: right;
+    margin-top: 20px;
+    font-size: 1.2em;
+}
+
+/* Continue shopping link styles */
+.continue-shopping {
+    display: block;
+    text-align: center;
+    margin-top: 50px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.shopping-button {
+    background-color: #008000;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+
+
+
+/* Totals section */
+.totals {
+  .totals-item {
+    float: right;
+    clear: both;
+    width: 100%;
+    margin-bottom: 10px;
+
+    label {
+      float: left;
+      clear: both;
+      width: 79%;
+      text-align: right;
+    }
+
+    .totals-value {
+      float: right;
+      width: 21%;
+      text-align: right;
+    }
+  }
+
+  .totals-item-total {
+    font-family: $font-bold;
+  }
+}
+
+.checkout {
+  float: right;
+  border: 0;
+  margin-top: 20px;
+  padding: 6px 25px;
+  background-color: #008000;
+  color: #fff;
+  font-size: 25px;
+  border-radius: 3px;
+}
+
+.checkout:hover {
+  background-color: #494;
+}
+
+
+
+	</style>
+</head>
+
+<body>
+
+	<h1>Your Shopping Cart</h1>
+
+	<div class="allproducts">
+
+
+
+	{% for item in cart_items %}
+	<div class="product-item">
+		<img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="max-width: 100px;">
+		<p>{{ item.product.name }} ({{ item.quantity }})</p>
+		<p>Price: ₹{{ item.product.price }}</p>
+		<a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a>
+	</div>
+	{% empty %}
+	<h2>Your cart is empty.</h2>
+	{% endfor %}
+
+	</div>
+
+
+	<div class="totals">
+    <div class="totals-item">
+      <label>Sub Total</label>
+      <div class="totals-value" id="cart-subtotal">₹{{ total_price }}</div>
+    </div>
+
+  </div>
+
+      <button class="checkout"><a href="{% url 'add_customer' %}">Checkout</a></button>
+
+</div>
+
+
+	<div class="shopping">
+		<button class="shopping-button"><a href="{% url 'cart:allproducts' %}">Continue Shopping</a></button>
+	</div>
+
+
+
+</body>
+
+</html>
